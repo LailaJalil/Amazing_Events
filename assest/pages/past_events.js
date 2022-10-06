@@ -1,36 +1,47 @@
-console.log(data)
 let events = data.events
 let container= document.getElementById("cardcontainer")
 let container2= document.getElementById("container-card-2")
+let fechaPasada= filtroFechaPasada(events, data.currentDate)
 
 
 
 
+for (let events of fechaPasada){
+     crearCard(events, container2)
 
-for(let i=0; i<events.length; i++){
-       
-         if(data.currentDate > events[i].date){
+ }
+ 
+ 
+ 
+ 
+ //FUNCTION
 
-    let div=document.getElementById("container-card-2")
-    
-     div.innerHTML +=
-`
-<div id="card" class="card rounded-4 p-0 pb-1" style="width: 18rem;" >
-<img src="${events[i].image}" alt="${events[i].name}" class="rounded-top"  />
-<div class="card-body">
-<h2 class="card-title">${events[i].name}</h2>
-<div class="card-body"> 
-<p class="card-text"> ${events[i].date}</p>
-<p class="card-text "> ${events[i].description}</p>
-<p class="card-tex fw-bold ">Price ${events[i].price}</p>
-<a href="#" class="btn border ">More info</a>
-</div>
+function filtroFechaPasada(array, currentDate){
+     let past=[]
+     for(let i=0; i<array.length; i++){
+          if (array[i].date < currentDate){ 
+          past.push(array[i])
+          }
+     }
 
-
-
-`
-
+     return past
 }
-
-}
-container.appendChild("cardcontainer")
+ function crearCard(evento, elemento){
+     elemento.innerHTML += `
+     
+     <article class=" card rounded-4 p-0 pb-5 " style="width: 18rem;" id="card">
+     <img src="${evento.image}" alt="${evento.name}" class="rounded-top"  />
+         <div class="card-body pb-0 mb-0">
+     <h5 class="card-title">${evento.name}</h5>
+     <p class="card-text">${evento.date}</p>
+     <p class="card-text">${evento.description}</p>
+     <div class="d-flex flex-row justify-content-between pt-3">
+                         <p class="fw-bold">Price $ ${evento.price}</p>
+                         <a href="#" class="btn">More info</a>
+                    </div>
+         </div>
+  </article>
+  
+     
+     `
+ }
