@@ -120,6 +120,30 @@ footer img:hover{
     
 }
 
+::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #120404;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background:  #da03671a;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #da0368;
+  } 
+
+@media (max-width: 768px) {
+    .card-img-overlay h2, .card-img-overlay h1 {
+        font-size: 4rem;
+    }
+}
 @keyframes jello-horizontal {
     0% {
       transform: scale3d(1, 1, 1);
