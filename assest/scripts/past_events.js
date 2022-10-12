@@ -18,6 +18,27 @@ let cardEvent= pastEvents.map(function(events){
      return crearCard(events,container2)
  })
  
+ // checkbox
+let checkboxEvent= document.getElementById("js-checkbox")
+let categoryFiltrada = new Set(events.map(function(event){
+  return event.category
+}))
+
+let categoryArray= Array.from(categoryFiltrada)
+console.log(categoryArray);
+
+categoryArray.forEach(function(categoryArray){
+   checkboxEvent.innerHTML +=`
+    <label class="text-white form-check-label pe-3 ">${categoryArray}
+    <input class=" form-check-input bg-danger" type="checkbox" role="switch" name="${categoryArray}">
+    `
+})
+
+
+//buscador
+let searchInput = document.getElementById("js-search")
+
+
  //FUNCTION
 
  function crearCard(evento, elemento){
