@@ -1,12 +1,10 @@
 
- let events = data.events
- console.log(events);
+let events = data.events
 let container2= document.getElementById("container-card-2")
 
-
-for (let events of data.events){
-    crearCard(events, container2)
-}
+let cardEvent= events.map(function(events){
+    return crearCard(events,container2)
+})
 
 
 

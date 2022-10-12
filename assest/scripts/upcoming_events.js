@@ -1,33 +1,16 @@
 
 let events = data.events
-
 let container2= document.getElementById("container-card-2")
-let fechaMayor= filtroFechaMayor(events, data.currentDate)
 
 
 
+let upComingEvents= events.filter(events=>events.date>data.currentDate)
 
-
-for (let events of fechaMayor){
-     crearCard(events, container2)
-
- }
+let cardEvent= upComingEvents.map(function(events){
+     return crearCard(events,container2)
+ })
  
- 
- 
- 
- //FUNCTION
-
-function filtroFechaMayor(array, currentDate){
-     let update=[]
-     for(let i=0; i<array.length; i++){
-          if (currentDate < array[i].date){ 
-          update.push(array[i])
-          }
-     }
-
-     return update
-}
+ //FUNTIONS
  function crearCard(evento, elemento){
      elemento.innerHTML += `
      

@@ -1,31 +1,24 @@
 let events = data.events
 
 let container2= document.getElementById("container-card-2")
-let fechaPasada= filtroFechaPasada(events, data.currentDate)
+// let fechaPasada= filtroFechaPasada(events, data.currentDate)
 
 
 
-for (let events of fechaPasada){
-     crearCard(events, container2)
+// for (let events of fechaPasada){
+//      crearCard(events, container2)
 
- }
- 
- 
- 
+//  }
+//El autocompletar me lo hizo solo, funciona pero no se que joraca es
+//let pastEvents= events.filter(event => event.date.isBefore(data.currentDate)).sort
+
+let pastEvents= events.filter(events=>events.date<data.currentDate)
+
+let cardEvent= pastEvents.map(function(events){
+     return crearCard(events,container2)
+ })
  
  //FUNCTION
-
-function filtroFechaPasada(array, currentDate){
-     let past=[]
-     for(let i=0; i<array.length; i++){
-          if (array[i].date < currentDate){ 
-          past.push(array[i])
-          }
-     }
-
-     return past
-}
-
 
  function crearCard(evento, elemento){
      elemento.innerHTML += `
