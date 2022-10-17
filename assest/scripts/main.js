@@ -3,7 +3,9 @@ let containerHome = document.getElementById("container-card-home")
 let text = document.getElementById("text-search-js")
 let btnSearch = document.getElementById("js-search")
 let checkBox = document.getElementById("js-checkbox") 
-
+let alert = document.getElementsByClassName("alert")
+// console.log(events); /// me dice undefined Cannot read properties of undefined (reading 'forEach') cuando lo pongo dentro de otra funcion
+let btnDark= document.getElementById("dark-mode-js")
 
 //print cards
 
@@ -16,13 +18,13 @@ crearcheck(filtrarCheckboxes(events))
 
 //buscador
 
-//listeners
+//listeners /// ERROR EN FILTRADO APARECE 2 VECES LA MISMA CARD CUANDO DESCLIKEO Y VUELVO A CLIKEAR LA CATEGORIA
 //listener text search
 text.addEventListener("keyup", (e) => {
     containerHome.innerHTML = ""
     let filtroCheck= buscarPorCheckBoxes(events)
     let filtroText= buscarPorTexto(text.value, filtroCheck)
-    printCardFiltered(filtroText) 
+    printCardFiltered(filtroText)    
     
 })
 
@@ -31,15 +33,24 @@ btnSearch.addEventListener("click", (e) => {
     e.preventDefault()
     containerHome.innerHTML = ""
     let filtroCheck= buscarPorCheckBoxes(events)
+    console.log(filtroCheck);
     let filtroText= buscarPorTexto(text.value, filtroCheck)
-    printCardFiltered(filtroText) 
- 
+    if (filtroText = false){
+    printCardFiltered(filtroText)}
+    else{
+        return  notFound() + printCardFiltered(events)
+    }
+    // if (filtroText != text.value){
+    //     return notFound(alert) 
+    // }
 })
 
 checkBox.addEventListener("change", (e) => {
    
     let filtroText= buscarPorCheckBoxes(events)
+    console.log(filtroText)
     let filtroCheck= buscarPorTexto(text.value,filtroText)
+    console.log(filtroCheck)//undefined
     printCardFiltered(filtroCheck)
    
     
@@ -71,9 +82,15 @@ function crearCard(array) {
 }
 
 function printCardFiltered(array) {
-    array.forEach(function (array) {
-        crearCard(array)
-    })
+    array.forEach(array=> crearCard(array))
+    
+    // array.forEach(function(array){
+    //     let printed= crearCard(array)
+    //     return printed
+    // })
+    // let print=array.forEach( function (array){ crearCard(array)})
+    // return print
+    
 }
 
 
@@ -101,21 +118,25 @@ function crearcheck(array) {
 /// filtrado x texto
 
 function buscarPorTexto(texto, array) {
-    
-        let arrayFiltrado = array.filter(evento => evento.name.toLowerCase().includes(texto.toLowerCase()))
+        
+        let arrayFiltrado = array.filter(evento => evento.name.toLowerCase().includes(texto.toLowerCase())|| evento.price == texto)
         return printCardFiltered(arrayFiltrado)
+        
+        // if (arrayFiltrado != texto){
+        //     notFound()
+        //     printCardFiltered(arrayFiltrado)      // }
+       
     
 }
 
 //not found
 function notFound(){
-    containerHome.innerHTML= `
-    <div class="alert alert-secondary" role="alert">
-     Oops! Please change your search criteria
-     </div>
-     `
-     appendto(btnSearch)
+    error= document.getElementById("js-alert")
+    error.classList.remove("hide")
+    
+     
 }
+
 
 function buscarPorCheckBoxes(array) {
     let checkboxes = Array.from(document.querySelectorAll("input[type='checkbox']"))
