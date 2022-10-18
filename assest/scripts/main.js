@@ -1,25 +1,22 @@
 let events = data.events
-console.log(events)
 let containerHome = document.getElementById("container-card-home")
 let text = document.getElementById("text-search-js")
 let btnSearch = document.getElementById("js-search")
 let checkBox = document.getElementById("js-checkbox") 
-let alert = document.getElementsByClassName("alert")
-// console.log(events); /// me dice undefined Cannot read properties of undefined (reading 'forEach') cuando lo pongo dentro de otra funcion
-let btnDark= document.getElementById("dark-mode-js")
+let options= document.getElementById("options-js")
+
+
 
 //print cards
 
-
-events.forEach(cardCreator)
+cardCreator(events)
 
 
 //print checks
 crearcheck(filtrarCheckboxes(events))
 
-//buscador
 
-//listeners /// ERROR EN FILTRADO APARECE 2 VECES LA MISMA CARD CUANDO DESCLIKEO Y VUELVO A CLIKEAR LA CATEGORIA
+//listeners /// 
 //listener text search
 text.addEventListener("keyup", (e) => {
     containerHome.innerHTML = ""
@@ -28,7 +25,7 @@ text.addEventListener("keyup", (e) => {
     if(filtroText.length !==0){
         containerHome.innerHTML=""
     }
-    filtroText.forEach(cardCreator)
+    cardCreator(filtroText)
     
 })
 
@@ -38,23 +35,20 @@ btnSearch.addEventListener("click", (e) => {
     containerHome.innerHTML = ""
     let filtroCheck= buscarPorCheckBoxes(events)
     let filtroText= buscarPorTexto(text.value, filtroCheck)
-    if(filtroText.length !==0){
-        containerHome.innerHTML=""
-    }
-    filtroText.forEach(cardCreator)
+    filtroText.filter(filtro=> filtro.length !==0)
+    containerHome.innerHTML=""
+
+    cardCreator(filtroText)
     
-    // if (filtroText != text.value){
-    //     return notFound(alert) 
-    // }
 })
 
 checkBox.addEventListener("change", (e) => {
     let filtroCheck= buscarPorCheckBoxes(events)
     let filtroText= buscarPorTexto(text.value, filtroCheck)
-    if(filtroText.length !==0){
+    filtroText.filter(filtro=> filtro.length !==0)
         containerHome.innerHTML=""
-    }
-    filtroText.forEach(cardCreator)
+   
+    cardCreator(filtroText)
     
 })
 
@@ -65,24 +59,25 @@ checkBox.addEventListener("change", (e) => {
 //Cards
 
 function cardCreator (array){
-    
+    array.forEach(card=>{
     containerHome.innerHTML += `
         
     <article class=" card rounded-4 p-0 pb-5 " style="width: 18rem;" id="card">
-    <img src="${array.image}" alt="${array.name}" class="rounded-top"  />
+    
+    <img src="${card.image}" alt="${card.name}" class="rounded-top"  />
         <div class="card-body pb-0 mb-0">
-    <h5 class="card-title">${array.name}</h5>
-    <p class="card-text">${array.date}</p>
-    <p class="card-text">${array.description}</p>
+    <h5 class="card-title">${card.name}</h5>
+    <p class="card-text">${card.date}</p>
+    <p class="card-text">${card.description}</p>
     <div class="d-flex flex-row justify-content-between pt-3">
-                        <p class="fw-bold">Price $ ${array.price}</p>
-                        <a href="#" class="btn">More info</a>
+                        <p class="fw-bold">Price $ ${card.price}</p>
+                        <a href="/LailaJalilM2T1/assest/pages/details.html?details_${card._id}" class="btn" id="${card._id}">More info</a>
                 </div>
         </div>
 </article>
 
 
-`
+`})
 }
       
 
@@ -111,15 +106,12 @@ function filtrarCheckboxes(events) {
 function buscarPorTexto(texto, array) {
         
         let arrayFiltrado = array.filter(evento => evento.name.toLowerCase().includes(texto.toLowerCase())|| evento.price == texto)
-        if(arrayFiltrado.length === 0) {
+        arrayFiltrado.filter(array=>array.length ===0)
+        
             notFound()
-            return []
-        }
+        
         return arrayFiltrado
         
-        // if (arrayFiltrado != texto){
-        //     notFound()
-        //     printCardFiltered(arrayFiltrado)      // }
        
     
 }
@@ -156,24 +148,6 @@ function buscarPorCheckBoxes(array) {
 
     return array
 }
-// console.log(document.body.classList);
-// let darkMode= document.getElementById("dark-mode-js")
-// console.log(darkMode);
-// darkMode.addEventListener("click",(e)=>{
- 
-// })
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

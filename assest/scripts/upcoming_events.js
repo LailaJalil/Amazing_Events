@@ -1,52 +1,177 @@
-
 let events = data.events
-let container2= document.getElementById("container-card-2")
+let containerUp= document.getElementById("container-card-up")
+let text = document.getElementById("text-search-js")
+let btnSearch = document.getElementById("js-search")
+let checkBox = document.getElementById("js-checkbox") 
 
 
 
+//print cards
 let upComingEvents= events.filter(events=>events.date>data.currentDate)
 
-let cardEvent= upComingEvents.map(function(events){
-     return crearCard(events,container2)
- })
- 
-// checkbox
-let checkboxEvent= document.getElementById("js-checkbox")
-let categoryFiltrada = new Set(events.map(function(event){
-  return event.category
-}))
+cardCreator(upComingEvents)
 
-let categoryArray= Array.from(categoryFiltrada)
-console.log(categoryArray);
 
-categoryArray.forEach(function(categoryArray){
-   checkboxEvent.innerHTML +=`
-    <label class="text-white form-check-label pe-3 ">${categoryArray}
-    <input class=" form-check-input bg-danger" type="checkbox" role="switch" name="${categoryArray}">
-    `
+//print checks
+crearcheck(filtrarCheckboxes(events))
+
+
+//listeners /// 
+
+//listener text search
+text.addEventListener("keyup", (e) => {
+    containerUp.innerHTML = ""
+    let filtroCheck= buscarPorCheckBoxes(upComingEvents)
+    let filtroText= buscarPorTexto(text.value, filtroCheck)
+    if(filtroText.length !==0){
+        containerUp.innerHTML=""
+    }
+    cardCreator(filtroText)
+    
+})
+
+//listener search btn
+btnSearch.addEventListener("click", (e) => {
+    e.preventDefault()
+    containerUp.innerHTML = ""
+    let filtroCheck= buscarPorCheckBoxes(upComingEvents)
+    let filtroText= buscarPorTexto(text.value, filtroCheck)
+    filtroText.filter(filtro=> filtro.length !==0)
+    containerUp.innerHTML=""
+
+    cardCreator(filtroText)
+    
+})
+
+checkBox.addEventListener("change", (e) => {
+    let filtroCheck= buscarPorCheckBoxes(upComingEvents)
+    let filtroText= buscarPorTexto(text.value, filtroCheck)
+    filtroText.filter(filtro=> filtro.length !==0)
+        containerUp.innerHTML=""
+   
+    cardCreator(filtroText)
+    
 })
 
 
-//buscador
-let searchInput = document.getElementById("js-search")
- //FUNTIONS
- function crearCard(evento, elemento){
-     elemento.innerHTML += `
-     
-     <article class=" card rounded-4 p-0 pb-5 " style="width: 18rem;" id="card">
-     <img src="${evento.image}" alt="${evento.name}" class="rounded-top"  />
-         <div class="card-body pb-0 mb-0">
-     <h5 class="card-title">${evento.name}</h5>
-     <p class="card-text">${evento.date}</p>
-     <p class="card-text">${evento.description}</p>
-     <div class="d-flex flex-row justify-content-between pt-3">
-                         <p class="fw-bold">Price $ ${evento.price}</p>
-                         <a href="#" class="btn">More info</a>
-                    </div>
-         </div>
-  </article>
-  
-     
-     `
- }
+//FUNCTION
 
+
+//Cards
+
+function cardCreator (array){
+    array.forEach(card=>{
+    containerUp.innerHTML += `
+        
+    <article class=" card rounded-4 p-0 pb-5 " style="width: 18rem;" id="card">
+    
+    <img src="${card.image}" alt="${card.name}" class="rounded-top"  />
+        <div class="card-body pb-0 mb-0">
+    <h5 class="card-title">${card.name}</h5>
+    <p class="card-text">${card.date}</p>
+    <p class="card-text">${card.description}</p>
+    <div class="d-flex flex-row justify-content-between pt-3">
+                        <p class="fw-bold">Price $ ${card.price}</p>
+                        <a href="/LailaJalilM2T1/assest/pages/details.html?details_${card._id}" class="btn" id="${card._id}">More info</a>
+                </div>
+        </div>
+</article>
+
+
+`})
+}
+      
+
+//Checkboxes
+
+
+function crearcheck(array) {
+    
+    array.forEach(array => {
+        checkBox.innerHTML += `
+        <div class="form-check form-switch">
+        <label class="text-white form-check-label pe-2" for="${array}">${array}</label>
+        <input class=" form-check-input bg-danger check-box-js" type="checkbox"  for="${array}" value="${array}" name="${array}">
+        </div> 
+        `
+        
+    })
+}
+
+function filtrarCheckboxes(array) {
+    let filtroCategory = new Set(events.map(event => event.category))
+    return category = Array.from(filtroCategory)
+}
+/// filtrado x texto
+
+function buscarPorTexto(texto, array) {
+        
+        let arrayFiltrado = array.filter(evento => evento.name.toLowerCase().includes(texto.toLowerCase())|| evento.price == texto)
+        arrayFiltrado.filter(array=>array.length ===0)
+        
+            notFound()
+        
+        return arrayFiltrado
+        
+       
+    
+}
+
+//not found
+function notFound(){
+ 
+    let image = document.createElement('img')
+    image.src  = "assest/images/not_found.jpg"
+     containerUp.innerHTML = `
+     <div class="card text-dark notfound">
+     <p class="card-text"><small>Your word <span class="fw-bold">"${text.value}"</span> didn´t bring a match.</small></p> 
+   </div>
+     `
+      
+}
+
+
+function buscarPorCheckBoxes(array) {
+    let checkboxes = Array.from(document.querySelectorAll("input[type='checkbox']"))
+
+    let checkSelected = checkboxes.filter(evento => evento.checked)
+
+    let checkValue = checkSelected.map(evento => evento.value)
+    
+    if (checkValue.length > 0) {
+        containerUp.innerHTML = ""
+        let checkFiltrado=array.filter(evento=>checkValue.includes(evento.category))
+        
+        return checkFiltrado
+       
+    }
+    
+
+    return array
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
