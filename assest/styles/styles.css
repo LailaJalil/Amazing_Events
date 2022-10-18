@@ -13,6 +13,13 @@ main {
     
 }
 
+.notfound{
+  background-image: url(../images/not_found.jpg);
+  background-position: 55% 50%;
+  background-size: 20vmax;
+  background-repeat: no-repeat;
+}
+
 .nav-link, .btn  {
     box-shadow: rgba(238, 36, 157, 0.242) 0 1px 20px -7px;
 }
@@ -79,14 +86,14 @@ main {
     min-height: 50%;
 }
 
-#card img {
+.card img {
     height: 50%;
     object-fit:cover;
     box-shadow: rgb(90, 89, 89) 0 10px 7px -5px;
     margin: -2px -1px -2px -2px;
 }
 .details_container {
-    min-height: 70vh;
+    min-height: 50vh;
 }
 .details_card {
     width: 70%;
@@ -120,6 +127,10 @@ footer img:hover{
     
 }
 
+.form-select-sm{
+  width: 30%;
+  padding-left: 0;
+}
 ::-webkit-scrollbar {
     width: 12px;
   }
@@ -178,7 +189,6 @@ footer img:hover{
       opacity: 1;
     }
   }
-  
 
 @media (max-width:565px){
     .card-img-overlay h2, .card-img-overlay h1 {
