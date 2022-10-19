@@ -2,14 +2,12 @@ details= document.getElementById("containerDetails")
 let events= data.events
 
 // cardCreator()
-eventDetails()
-function eventDetails(){
-let id=location.search.slice(9)
+
+
+let id=location.search.slice(4)
 console.log(id);
 let filtrado= events.filter(evento=> evento._id == id)
 console.log(filtrado)
-
-
 
 cardCreator(filtrado[0])
 
@@ -56,4 +54,3 @@ function cardCreator (array){
 
 `
 }
-} 
