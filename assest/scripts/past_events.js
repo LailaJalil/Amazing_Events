@@ -71,7 +71,7 @@ function cardCreator (array){
     <p class="card-text">${card.description}</p>
     <div class="d-flex flex-row justify-content-between pt-3">
                         <p class="fw-bold">Price $ ${card.price}</p>
-                        <a href="../pages/details.html?id=${card._id}" class="btn" id="${card._id}">More info</a>
+                        <a href="./details.html?id=${card._id}" class="btn" id="${card._id}">More info</a>
                 </div>
         </div>
 </article>
