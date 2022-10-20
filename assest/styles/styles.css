@@ -13,12 +13,12 @@ main {
     
 }
 
-.notfound{
+ .notfound{
   background-image: url(../images/not_found.jpg);
   background-position: 55% 50%;
   background-size: 20vmax;
   background-repeat: no-repeat;
-}
+} 
 
 .nav-link, .btn  {
     box-shadow: rgba(238, 36, 157, 0.242) 0 1px 20px -7px;
