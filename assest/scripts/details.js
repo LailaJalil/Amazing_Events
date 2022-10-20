@@ -13,6 +13,10 @@ cardCreator(filtrado[0])
 
 
 function cardCreator (array){
+if (array.assistance === undefined){
+        array.assistance = array.estimate + " est."}
+
+  
     
     details.innerHTML += `
         

@@ -121,8 +121,10 @@ function buscarPorTexto(texto, array) {
 function notFound(){
  
      containerPast.innerHTML = `
+     
      <div class="card text-dark notfound">
      <p class="card-text"><small>Your word <span class="fw-bold">"${text.value}"</span> didn´t bring a match.</small></p> 
+     
    </div>
      `
       
@@ -149,6 +151,61 @@ function buscarPorCheckBoxes(array) {
 }
 
 
+
+function dropdownPrint(){
+    let options= document.getElementById("options-js")
+    let selection= document.createElement("select")
+    selection.className="form-select-sm bg-dark bg-success text-white"
+    
+     selection.innerHTML=
+     `
+        <option value="all" >Sort by:</option>
+        <option value="high" >Price: High to Low</option>
+        <option value="low" >Price: Low to High</option>
+        
+
+    `
+    options.appendChild(selection)
+    
+}
+
+dropdownPrint()
+
+function lowPrice (array){
+    
+    let  lower= [...array].sort((evento1,evento2)=> evento1.price-evento2.price)
+  
+    return lower
+}
+
+
+
+function highPrice (array){
+    let higher= [...array].sort((evento1,evento2)=> evento2.price-evento1.price)
+ 
+    return higher
+}
+
+
+let select = document.querySelector("select")
+
+select.addEventListener("change",e=>{
+
+    containerPast.innerHTML = ""
+
+    switch (e.target.value) {
+        case "low":
+            cardCreator(lowPrice(pastEvents))
+            break
+        case "high":
+            cardCreator(highPrice(pastEvents))
+            break
+        case "all":
+               cardCreator(pastEvents) 
+      }
+    
+      
+})
 
 
 
