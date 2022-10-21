@@ -1,15 +1,15 @@
 let events = data.events
-let containerPast = document.getElementById("container-card-past")
+let containerHome = document.getElementById("container-card-home")
 let text = document.getElementById("text-search-js")
 let btnSearch = document.getElementById("js-search")
 let checkBox = document.getElementById("js-checkbox") 
+let options= document.getElementById("options-js")
 
 
 
 //print cards
-let pastEvents= events.filter(events=>events.date<data.currentDate)
 
-cardCreator(pastEvents)
+cardCreator(events)
 
 
 //print checks
@@ -19,11 +19,11 @@ crearcheck(filtrarCheckboxes(events))
 //listeners /// 
 //listener text search
 text.addEventListener("keyup", (e) => {
-    containerPast.innerHTML = ""
-    let filtroCheck= buscarPorCheckBoxes(pastEvents)
+    // containerHome.innerHTML = ""
+    let filtroCheck= buscarPorCheckBoxes(events)
     let filtroText= buscarPorTexto(text.value, filtroCheck)
     if(filtroText.length !==0){
-        containerPast.innerHTML=""
+        containerHome.innerHTML=""
     }
     cardCreator(filtroText)
     
@@ -32,21 +32,21 @@ text.addEventListener("keyup", (e) => {
 //listener search btn
 btnSearch.addEventListener("click", (e) => {
     e.preventDefault()
-    containerPast.innerHTML = ""
-    let filtroCheck= buscarPorCheckBoxes(pastEvents)
+    // containerHome.innerHTML = ""
+    let filtroCheck= buscarPorCheckBoxes(events)
     let filtroText= buscarPorTexto(text.value, filtroCheck)
     filtroText.filter(filtro=> filtro.length !==0)
-    containerPast.innerHTML=""
+    containerHome.innerHTML=""
 
     cardCreator(filtroText)
     
 })
 
 checkBox.addEventListener("change", (e) => {
-    let filtroCheck= buscarPorCheckBoxes(pastEvents)
+    let filtroCheck= buscarPorCheckBoxes(events)
     let filtroText= buscarPorTexto(text.value, filtroCheck)
     filtroText.filter(filtro=> filtro.length !==0)
-        containerPast.innerHTML=""
+        containerHome.innerHTML=""
    
     cardCreator(filtroText)
     
@@ -60,7 +60,7 @@ checkBox.addEventListener("change", (e) => {
 
 function cardCreator (array){
     array.forEach(card=>{
-    containerPast.innerHTML += `
+    containerHome.innerHTML += `
         
     <article class=" card rounded-4 p-0 pb-5 " style="width: 18rem;" id="card">
     
@@ -71,14 +71,13 @@ function cardCreator (array){
     <p class="card-text">${card.description}</p>
     <div class="d-flex flex-row justify-content-between pt-3">
                         <p class="fw-bold">Price $ ${card.price}</p>
-                        <a href="./details.html?id=${card._id}" class="btn" id="${card._id}">More info</a>
+                         <a href="assest/pages/details.html?id=${card._id}" class="btn" id="${card._id}">More info</a>
                 </div>
         </div>
 </article>
 
 
 `})
-
 }
       
 
@@ -120,11 +119,10 @@ function buscarPorTexto(texto, array) {
 //not found
 function notFound(){
  
-     containerPast.innerHTML = `
-     
+     containerHome.innerHTML = `
      <div class="card text-dark notfound">
      <p class="card-text"><small>Your word <span class="fw-bold">"${text.value}"</span> didn´t bring a match.</small></p> 
-     
+    
    </div>
      `
       
@@ -139,7 +137,7 @@ function buscarPorCheckBoxes(array) {
     let checkValue = checkSelected.map(evento => evento.value)
     
     if (checkValue.length > 0) {
-        containerPast.innerHTML = ""
+        containerHome.innerHTML = ""
         let checkFiltrado=array.filter(evento=>checkValue.includes(evento.category))
         
         return checkFiltrado
@@ -187,37 +185,26 @@ function highPrice (array){
 }
 
 
+
 let select = document.querySelector("select")
 
 select.addEventListener("change",e=>{
-
-    containerPast.innerHTML = ""
+    containerHome.innerHTML = ""
 
     switch (e.target.value) {
         case "low":
-            cardCreator(lowPrice(pastEvents))
+            cardCreator(lowPrice(events))
+            
             break
         case "high":
-            cardCreator(highPrice(pastEvents))
+            cardCreator(highPrice(events))
             break
         case "all":
-               cardCreator(pastEvents) 
+               cardCreator(events) 
       }
     
-      
+
 })
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

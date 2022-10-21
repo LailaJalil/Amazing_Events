@@ -1,16 +1,35 @@
-
- let events = data.events
- console.log(events);
+//impresión y filtro de cards
+let events = data.events
 let container2= document.getElementById("container-card-2")
 
+let cardEvent= events.map(function(events){
+    return crearCard(events,container2)
+})
+// checkbox
+let checkboxEvent= document.getElementById("js-checkbox")
+let categoryFiltrada = new Set(events.map(function(event){
+  return event.category
+}))
 
-for (let events of data.events){
-    crearCard(events, container2)
-}
+let categoryArray= Array.from(categoryFiltrada)
+console.log(categoryArray);
+
+categoryArray.forEach(function(categoryArray){
+   checkboxEvent.innerHTML +=`
+    <label class="text-white form-check-label pe-3 ">${categoryArray}
+    <input class=" form-check-input bg-danger" type="checkbox" role="switch" name="${categoryArray}">
+    `
+})
+
+
+//buscador
+let searchInput = document.getElementById("js-search")
 
 
 
 //FUNCTION
+
+
 function crearCard(evento, elemento){
     elemento.innerHTML += `
     
