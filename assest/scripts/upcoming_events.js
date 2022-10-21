@@ -1,57 +1,74 @@
-let events = data.events
 let containerUp= document.getElementById("container-card-up")
 let text = document.getElementById("text-search-js")
 let btnSearch = document.getElementById("js-search")
 let checkBox = document.getElementById("js-checkbox") 
 
 
-
-//print cards
-let upComingEvents= events.filter(events=>events.date>data.currentDate)
-
-cardCreator(upComingEvents)
-
-
-//print checks
-crearcheck(filtrarCheckboxes(events))
-
-
-//listeners /// 
-
-//listener text search
-text.addEventListener("keyup", (e) => {
-    containerUp.innerHTML = ""
-    let filtroCheck= buscarPorCheckBoxes(upComingEvents)
-    let filtroText= buscarPorTexto(text.value, filtroCheck)
-    if(filtroText.length !==0){
-        containerUp.innerHTML=""
+async function eventsUp(){
+    try {
+        let answer = await fetch("https://mind-hub.up.railway.app/amazing?time=upcoming&order=asc")
+        let data = await answer.json()
+        let events= data.events
+        cardCreator(events)
+        crearcheck(filtrarCheckboxes(events))
+        lowPrice (events)
+        highPrice(events)
+        select.addEventListener("change",e=>{
+            containerUp.innerHTML = ""
+        
+          switch (e.target.value) {
+            case "low":
+                cardCreator(lowPrice(events))
+                break
+            case "high":
+                cardCreator(highPrice(events))
+                break
+            case "all":
+                   cardCreator(events) 
+          }  
+        })
+        btnSearch.addEventListener("click", (e) => {
+            e.preventDefault()
+            let filtroCheck= buscarPorCheckBoxes(events)
+             console.log(filtroCheck)
+            let filtroText= buscarPorTexto(text.value, filtroCheck)
+            filtroText.filter(filtro=> filtro.length !==0)
+            containerHome.innerHTML=""
+        
+            cardCreator(filtroText)
+            
+        })
+        
+        checkBox.addEventListener("change", (e) => {
+            let filtroCheck=buscarPorCheckBoxes(events)
+            console.log(filtroCheck);
+            let filtroText= buscarPorTexto(text.value, filtroCheck)
+            console.log(filtroText)
+            filtroText.filter(filtro=> filtro.length !==0)
+                containerHome.innerHTML=""
+           
+            cardCreator(filtroText)
+            
+        })           
+        text.addEventListener("keyup", (e) => {
+            let filtroCheck= buscarPorCheckBoxes(events)
+            let filtroText= buscarPorTexto(text.value, filtroCheck)
+            if(filtroText.length !==0){
+                containerHome.innerHTML=""
+            }
+            cardCreator(filtroText)
+            
+        })
+        
     }
-    cardCreator(filtroText)
-    
-})
 
-//listener search btn
-btnSearch.addEventListener("click", (e) => {
-    e.preventDefault()
-    containerUp.innerHTML = ""
-    let filtroCheck= buscarPorCheckBoxes(upComingEvents)
-    let filtroText= buscarPorTexto(text.value, filtroCheck)
-    filtroText.filter(filtro=> filtro.length !==0)
-    containerUp.innerHTML=""
+    catch (error) {
 
-    cardCreator(filtroText)
-    
-})
+        console.log(error)
+    }
+}
 
-checkBox.addEventListener("change", (e) => {
-    let filtroCheck= buscarPorCheckBoxes(upComingEvents)
-    let filtroText= buscarPorTexto(text.value, filtroCheck)
-    filtroText.filter(filtro=> filtro.length !==0)
-        containerUp.innerHTML=""
-   
-    cardCreator(filtroText)
-    
-})
+eventsUp()
 
 
 //FUNCTION
@@ -72,7 +89,7 @@ function cardCreator (array){
     <p class="card-text">${card.description}</p>
     <div class="d-flex flex-row justify-content-between pt-3">
                         <p class="fw-bold">Price $ ${card.price}</p>
-                        <a href="./details.html?id=${card._id}" class="btn" id="${card._id}">More info</a>
+                        <a href="./details.html?id=${card.id}" class="btn" id="${card.id}">More info</a>
                 </div>
         </div>
 </article>
@@ -98,7 +115,7 @@ function crearcheck(array) {
     })
 }
 
-function filtrarCheckboxes(array) {
+function filtrarCheckboxes(events) {
     let filtroCategory = new Set(events.map(event => event.category))
     return category = Array.from(filtroCategory)
 }
@@ -188,23 +205,6 @@ function highPrice (array){
 
 let select = document.querySelector("select")
 
-select.addEventListener("change",e=>{
-    console.log(e.target.value);
-    containerUp.innerHTML = ""
-
-  switch (e.target.value) {
-    case "low":
-        cardCreator(lowPrice(upComingEvents))
-        break
-    case "high":
-        cardCreator(highPrice(upComingEvents))
-        break
-    case "all":
-           cardCreator(upComingEvents) 
-  }
-
-  
-})
 
 
 

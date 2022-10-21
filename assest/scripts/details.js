@@ -1,15 +1,42 @@
 details= document.getElementById("containerDetails")
-let events= data.events
 
-// cardCreator()
+async function unEvento(){
+    try {
+        let id=location.search.slice(4)
+        console.log(id);
+        let answer = await fetch( `https://mind-hub.up.railway.app/amazing/${id} `)
+        let data = await answer.json()
+        console.log(data)
+        let event= data.event
+        console.log(data)
+        cardCreator(event)
+        
+    }
+
+    catch (error) {
+
+        console.log(error)
+    }
+}
+
+unEvento()
 
 
-let id=location.search.slice(4)
-console.log(id);
-let filtrado= events.filter(evento=> evento._id == id)
-console.log(filtrado)
 
-cardCreator(filtrado[0])
+
+
+
+
+
+
+
+
+
+// cardCreator(filtrado[0])
+
+
+
+
 
 
 function cardCreator (array){
@@ -53,7 +80,6 @@ if (array.assistance === undefined){
         <a href="#" class="btn fw-bold align-self-center">Buy</a>
     </div>
 </article>
-
 
 
 `
