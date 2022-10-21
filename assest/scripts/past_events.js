@@ -56,8 +56,11 @@ async function eventsPast(){
             let filtroText= buscarPorTexto(text.value, filtroCheck)
             if(filtroText.length !==0){
                 containerHome.innerHTML=""
+                cardCreator(filtroText)
+            } else {
+        
+            notFound()
             }
-            cardCreator(filtroText)
             
         })
     }
@@ -128,9 +131,7 @@ function filtrarCheckboxes(events) {
 function buscarPorTexto(texto, array) {
         
         let arrayFiltrado = array.filter(evento => evento.name.toLowerCase().includes(texto.toLowerCase())|| evento.price == texto)
-        arrayFiltrado.filter(array=>array.length ===0)
-        
-            notFound()
+
         
         return arrayFiltrado
         
