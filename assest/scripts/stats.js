@@ -81,7 +81,7 @@ upComingAndPast()
 
 //Percentage of attendance
 
-//PAST EVENTS STATISTICS BY CATEGORY
+//PAST EVENTS STATISTICS BY CATEGORy
 
 
 //FUNCTIONS
