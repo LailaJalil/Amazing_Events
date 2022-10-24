@@ -2,6 +2,7 @@ let containerUp= document.getElementById("container-card-up")
 let text = document.getElementById("text-search-js")
 let btnSearch = document.getElementById("js-search")
 let checkBox = document.getElementById("js-checkbox") 
+let select = document.querySelector("select")
 
 
 async function eventsUp(){
@@ -30,10 +31,9 @@ async function eventsUp(){
         btnSearch.addEventListener("click", (e) => {
             e.preventDefault()
             let filtroCheck= buscarPorCheckBoxes(events)
-             console.log(filtroCheck)
             let filtroText= buscarPorTexto(text.value, filtroCheck)
             filtroText.filter(filtro=> filtro.length !==0)
-            containerHome.innerHTML=""
+            containerUp.innerHTML=""
         
             cardCreator(filtroText)
             
@@ -41,28 +41,30 @@ async function eventsUp(){
         
         checkBox.addEventListener("change", (e) => {
             let filtroCheck=buscarPorCheckBoxes(events)
-            console.log(filtroCheck);
             let filtroText= buscarPorTexto(text.value, filtroCheck)
-            console.log(filtroText)
             filtroText.filter(filtro=> filtro.length !==0)
-                containerHome.innerHTML=""
-           
-            cardCreator(filtroText)
+                containerUp.innerHTML=""
+                if(filtroText.length !==0){
+                    containerUp.innerHTML=""
+                    cardCreator(filtroText)
+                } else {
+            
+                notFound()
+                }
             
         })           
         text.addEventListener("keyup", (e) => {
             let filtroCheck= buscarPorCheckBoxes(events)
             let filtroText= buscarPorTexto(text.value, filtroCheck)
             if(filtroText.length !==0){
-                containerHome.innerHTML=""
+                containerUp.innerHTML=""
                 cardCreator(filtroText)
             } else {
         
             notFound()
             }
             
-        })
-        
+        })       
     }
 
     catch (error) {
@@ -73,9 +75,7 @@ async function eventsUp(){
 
 eventsUp()
 
-
 //FUNCTION
-
 
 //Cards
 
@@ -104,7 +104,6 @@ function cardCreator (array){
 
 //Checkboxes
 
-
 function crearcheck(array) {
     
     array.forEach(array => {
@@ -129,23 +128,17 @@ function buscarPorTexto(texto, array) {
         let arrayFiltrado = array.filter(evento => evento.name.toLowerCase().includes(texto.toLowerCase())|| evento.price == texto)
        
         
-        return arrayFiltrado
-        
-       
-    
+        return arrayFiltrado      
 }
 
 //not found
 function notFound(){
- 
-  
-     containerUp.innerHTML = `
+      containerUp.innerHTML = `
      <div class="card text-dark notfound">
      <p class="card-text"><small>Your word <span class="fw-bold">"${text.value}"</span> didn´t bring a match.</small></p> 
      
    </div>
-     `
-      
+     `     
 }
 
 
@@ -160,14 +153,10 @@ function buscarPorCheckBoxes(array) {
         containerUp.innerHTML = ""
         let checkFiltrado=array.filter(evento=>checkValue.includes(evento.category))
         
-        return checkFiltrado
-       
+        return checkFiltrado     
     }
-    
-
     return array
 }
-
 
 function dropdownPrint(){
     let options= document.getElementById("options-js")
@@ -178,33 +167,23 @@ function dropdownPrint(){
      `
         <option value= "all" >Sort by:</option>
         <option value="high" >Price: High to Low</option>
-        <option value="low" >Price: Low to High</option>
-        
-
+        <option value="low" >Price: Low to High</option>      
     `
-    options.appendChild(selection)
-    
+    options.appendChild(selection)   
 }
 
 dropdownPrint()
 
-function lowPrice (array){
-    
+function lowPrice (array){ 
     let  lower= [...array].sort((evento1,evento2)=> evento1.price-evento2.price)
-  
     return lower
 }
-
-
-
 function highPrice (array){
     let higher= [...array].sort((evento1,evento2)=> evento2.price-evento1.price)
- 
     return higher
 }
 
 
-let select = document.querySelector("select")
 
 
 

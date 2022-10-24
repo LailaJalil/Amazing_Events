@@ -30,7 +30,6 @@ async function events(){
         btnSearch.addEventListener("click", (e) => {
             e.preventDefault()
             let filtroCheck= buscarPorCheckBoxes(events)
-             console.log(filtroCheck)
             let filtroText= buscarPorTexto(text.value, filtroCheck)
             filtroText.filter(filtro=> filtro.length !==0)
             containerHome.innerHTML=""
@@ -41,13 +40,19 @@ async function events(){
         
         checkBox.addEventListener("change", (e) => {
             let filtroCheck=buscarPorCheckBoxes(events)
-            console.log(filtroCheck);
+
             let filtroText= buscarPorTexto(text.value, filtroCheck)
-            console.log(filtroText)
+         
             filtroText.filter(filtro=> filtro.length !==0)
                 containerHome.innerHTML=""
+              if(filtroText.length !==0){
+                containerHome.innerHTML=""
+                cardCreator(filtroText)
+            } else {
+        
+            notFound()
+            }
            
-            cardCreator(filtroText)
             
         })           
         text.addEventListener("keyup", (e) => {
@@ -198,9 +203,6 @@ function highPrice (array){
 }
 
 let select = document.querySelector("select")
-
-
-
 
 
 

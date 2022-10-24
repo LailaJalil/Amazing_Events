@@ -31,10 +31,9 @@ async function eventsPast(){
         btnSearch.addEventListener("click", (e) => {
             e.preventDefault()
             let filtroCheck= buscarPorCheckBoxes(events)
-             console.log(filtroCheck)
             let filtroText= buscarPorTexto(text.value, filtroCheck)
             filtroText.filter(filtro=> filtro.length !==0)
-            containerHome.innerHTML=""
+            containerPast.innerHTML=""
         
             cardCreator(filtroText)
             
@@ -42,20 +41,23 @@ async function eventsPast(){
         
         checkBox.addEventListener("change", (e) => {
             let filtroCheck=buscarPorCheckBoxes(events)
-            console.log(filtroCheck);
-            let filtroText= buscarPorTexto(text.value, filtroCheck)
-            console.log(filtroText)
+            let filtroText= buscarPorTexto(text.value, filtroCheck)    
             filtroText.filter(filtro=> filtro.length !==0)
-                containerHome.innerHTML=""
-           
-            cardCreator(filtroText)
+                containerPast.innerHTML=""
+                if(filtroText.length !==0){
+                    containerPast.innerHTML=""
+                    cardCreator(filtroText)
+                } else {
+            
+                notFound()
+                }
             
         })           
         text.addEventListener("keyup", (e) => {
             let filtroCheck= buscarPorCheckBoxes(events)
             let filtroText= buscarPorTexto(text.value, filtroCheck)
             if(filtroText.length !==0){
-                containerHome.innerHTML=""
+                containerPast.innerHTML=""
                 cardCreator(filtroText)
             } else {
         

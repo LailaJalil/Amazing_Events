@@ -104,6 +104,7 @@ main {
     height: 100%;
     width: 100%;
     object-fit: cover;
+    object-position: 25% 50%;
     margin: -1px 0px -1px -1px;
 }
 
@@ -190,6 +191,15 @@ footer img:hover{
     }
   }
 
+
+@media (max-witdh:768px){
+  .details_card {
+    height: auto;
+    width: 100%;
+    margin:0;
+    padding:0;
+ }
+}
 @media (max-width:565px){
     .card-img-overlay h2, .card-img-overlay h1 {
         font-size: 2.5rem;
@@ -197,6 +207,7 @@ footer img:hover{
     }   
      .details_card .card-body {
         height: auto;
+        width: 90%;
      }
 }
 @media (max-width:352px) {
