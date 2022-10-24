@@ -75,9 +75,9 @@
             </button>
         </div>
     </section>
-    <main class="container-fluid cardcontainer d-flex justify-content-center align-items-center d-flex flex-column " >
+    <main class="container-fluid cardcontainer d-flex justify-content-center align-items-center d-flex flex-column text-white text-center " >
         
-        <table class="table table-dark table-hover mb-0 mt-2 text-white">
+        <table class="table table-dark mb-0 mt-2">
     
             <thead >
                 <colgroup>
@@ -85,46 +85,39 @@
                     <col span="1">
                     <col span="1">
                 </colgroup> 
-                <tr class="text-center">
+                <tr>
                     <th colspan="3"> EVENTS STATISTICS</th>
                 </tr>
-                <tr>
+                <tr class="fw-bold">
                     <td>Events with the highest percentage of attendance</td>
                     <td>Events with the lowest percentage of attendance</td>
                     <td>Event with larger capacity</td>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td id="highestAttendance"></td>
-                    <td id="lowestAttendance"></td>
-                    <td id="largerCapacity"></td>
-                </tr>
-                
+            <tbody id="highest" class="table-hover">     
             </tbody>
         </table>
-        <table class="table table-dark table-hover mb-0 text-white">
+        <table class="table table-dark table-hover mb-0 ">
             <colgroup>
                 <col span="1">
                 <col span="1">
                 <col span="1">
             </colgroup> 
             <thead>
-                <tr  class="text-center">
+                <tr>
                     <th colspan="3"> UPCOMING EVENTS STATISTICS BY CATEGORY</th>
                 </tr>
-                <tr id="table2-js">
+                <tr class="fw-bold">
                     <td>Categories</td>
-                    <td>Revenues</td>
-                    <td>Percentage of attendance</td>
+                    <td>Estimate Revenues</td>
+                    <td> Estimate Percentage of attendance</td>
                 </tr>
             </thead>
-            <tbody>
-                <tr class="text-center category"> </tr>
-               
+            <tbody id="tableUp-js">
+                
             </tbody>
         </table>
-        <table class="table table-dark table-hover text-white">
+        <table class="table table-dark table-hover">
             <colgroup>
                 <col span="1">
                 <col span="1">
@@ -135,16 +128,13 @@
                 <tr >
                     <th colspan="3"> PAST EVENTS STATISTICS BY CATEGORY</th>
                 </tr>
-                <tr id="table2-js">
+                <tr class="fw-bold">
                     <td >Categories</td>
                     <td>Revenues</td>
                     <td>Percentage of attendance</td>
                 </tr>
             </thead>
-            <tbody>
-                <tr class="category">
-                  
-                </tr>
+            <tbody id="tablePast-js" class="table-hover ">
                 
             </tbody>
         </table>

@@ -112,9 +112,9 @@ table {
     border: 1px solid rgba(255, 255, 255, 0.44);
 }
 table th {
-  background-color: #f5285b17 !important;
-  
+  background-color: #f5285b17 !important; 
 }
+
 td {
     width: 33%;
 }
