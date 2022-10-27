@@ -1,61 +1,81 @@
-let events = data.events
 let containerUp= document.getElementById("container-card-up")
 let text = document.getElementById("text-search-js")
 let btnSearch = document.getElementById("js-search")
 let checkBox = document.getElementById("js-checkbox") 
+let select = document.querySelector("select")
 
 
-
-//print cards
-let upComingEvents= events.filter(events=>events.date>data.currentDate)
-
-cardCreator(upComingEvents)
-
-
-//print checks
-crearcheck(filtrarCheckboxes(events))
-
-
-//listeners /// 
-
-//listener text search
-text.addEventListener("keyup", (e) => {
-    containerUp.innerHTML = ""
-    let filtroCheck= buscarPorCheckBoxes(upComingEvents)
-    let filtroText= buscarPorTexto(text.value, filtroCheck)
-    if(filtroText.length !==0){
-        containerUp.innerHTML=""
+async function eventsUp(){
+    try {
+        let answer = await fetch("https://mind-hub.up.railway.app/amazing?time=upcoming&order=asc")
+        let data = await answer.json()
+        let events= data.events
+        cardCreator(events)
+        crearcheck(filtrarCheckboxes(events))
+        lowPrice (events)
+        highPrice(events)
+        select.addEventListener("change",e=>{
+            containerUp.innerHTML = ""
+        
+          switch (e.target.value) {
+            case "low":
+                cardCreator(lowPrice(events))
+                break
+            case "high":
+                cardCreator(highPrice(events))
+                break
+            case "all":
+                   cardCreator(events) 
+          }  
+        })
+        btnSearch.addEventListener("click", (e) => {
+            e.preventDefault()
+            let filtroCheck= buscarPorCheckBoxes(events)
+            let filtroText= buscarPorTexto(text.value, filtroCheck)
+            filtroText.filter(filtro=> filtro.length !==0)
+            containerUp.innerHTML=""
+        
+            cardCreator(filtroText)
+            
+        })
+        
+        checkBox.addEventListener("change", (e) => {
+            let filtroCheck=buscarPorCheckBoxes(events)
+            let filtroText= buscarPorTexto(text.value, filtroCheck)
+            filtroText.filter(filtro=> filtro.length !==0)
+                containerUp.innerHTML=""
+                if(filtroText.length !==0){
+                    containerUp.innerHTML=""
+                    cardCreator(filtroText)
+                } else {
+            
+                notFound()
+                }
+            
+        })           
+        text.addEventListener("keyup", (e) => {
+            let filtroCheck= buscarPorCheckBoxes(events)
+            let filtroText= buscarPorTexto(text.value, filtroCheck)
+            if(filtroText.length !==0){
+                containerUp.innerHTML=""
+                cardCreator(filtroText)
+            } else {
+        
+            notFound()
+            }
+            
+        })       
     }
-    cardCreator(filtroText)
-    
-})
 
-//listener search btn
-btnSearch.addEventListener("click", (e) => {
-    e.preventDefault()
-    containerUp.innerHTML = ""
-    let filtroCheck= buscarPorCheckBoxes(upComingEvents)
-    let filtroText= buscarPorTexto(text.value, filtroCheck)
-    filtroText.filter(filtro=> filtro.length !==0)
-    containerUp.innerHTML=""
+    catch (error) {
 
-    cardCreator(filtroText)
-    
-})
+        console.log(error)
+    }
+}
 
-checkBox.addEventListener("change", (e) => {
-    let filtroCheck= buscarPorCheckBoxes(upComingEvents)
-    let filtroText= buscarPorTexto(text.value, filtroCheck)
-    filtroText.filter(filtro=> filtro.length !==0)
-        containerUp.innerHTML=""
-   
-    cardCreator(filtroText)
-    
-})
-
+eventsUp()
 
 //FUNCTION
-
 
 //Cards
 
@@ -72,7 +92,7 @@ function cardCreator (array){
     <p class="card-text">${card.description}</p>
     <div class="d-flex flex-row justify-content-between pt-3">
                         <p class="fw-bold">Price $ ${card.price}</p>
-                        <a href="./details.html?id=${card._id}" class="btn" id="${card._id}">More info</a>
+                        <a href="./details.html?id=${card.id}" class="btn" id="${card.id}">More info</a>
                 </div>
         </div>
 </article>
@@ -83,7 +103,6 @@ function cardCreator (array){
       
 
 //Checkboxes
-
 
 function crearcheck(array) {
     
@@ -98,7 +117,7 @@ function crearcheck(array) {
     })
 }
 
-function filtrarCheckboxes(array) {
+function filtrarCheckboxes(events) {
     let filtroCategory = new Set(events.map(event => event.category))
     return category = Array.from(filtroCategory)
 }
@@ -107,27 +126,19 @@ function filtrarCheckboxes(array) {
 function buscarPorTexto(texto, array) {
         
         let arrayFiltrado = array.filter(evento => evento.name.toLowerCase().includes(texto.toLowerCase())|| evento.price == texto)
-        arrayFiltrado.filter(array=>array.length ===0)
-        
-            notFound()
-        
-        return arrayFiltrado
-        
        
-    
+        
+        return arrayFiltrado      
 }
 
 //not found
 function notFound(){
- 
-  
-     containerUp.innerHTML = `
+      containerUp.innerHTML = `
      <div class="card text-dark notfound">
      <p class="card-text"><small>Your word <span class="fw-bold">"${text.value}"</span> didn´t bring a match.</small></p> 
      
    </div>
-     `
-      
+     `     
 }
 
 
@@ -142,14 +153,10 @@ function buscarPorCheckBoxes(array) {
         containerUp.innerHTML = ""
         let checkFiltrado=array.filter(evento=>checkValue.includes(evento.category))
         
-        return checkFiltrado
-       
+        return checkFiltrado     
     }
-    
-
     return array
 }
-
 
 function dropdownPrint(){
     let options= document.getElementById("options-js")
@@ -160,51 +167,24 @@ function dropdownPrint(){
      `
         <option value= "all" >Sort by:</option>
         <option value="high" >Price: High to Low</option>
-        <option value="low" >Price: Low to High</option>
-        
-
+        <option value="low" >Price: Low to High</option>      
     `
-    options.appendChild(selection)
-    
+    options.appendChild(selection)   
 }
 
 dropdownPrint()
 
-function lowPrice (array){
-    
+function lowPrice (array){ 
     let  lower= [...array].sort((evento1,evento2)=> evento1.price-evento2.price)
-  
     return lower
 }
-
-
-
 function highPrice (array){
     let higher= [...array].sort((evento1,evento2)=> evento2.price-evento1.price)
- 
     return higher
 }
 
 
-let select = document.querySelector("select")
 
-select.addEventListener("change",e=>{
-    console.log(e.target.value);
-    containerUp.innerHTML = ""
-
-  switch (e.target.value) {
-    case "low":
-        cardCreator(lowPrice(upComingEvents))
-        break
-    case "high":
-        cardCreator(highPrice(upComingEvents))
-        break
-    case "all":
-           cardCreator(upComingEvents) 
-  }
-
-  
-})
 
 
 

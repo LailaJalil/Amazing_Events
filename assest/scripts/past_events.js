@@ -1,4 +1,3 @@
-let events = data.events
 let containerPast = document.getElementById("container-card-past")
 let text = document.getElementById("text-search-js")
 let btnSearch = document.getElementById("js-search")
@@ -6,51 +5,78 @@ let checkBox = document.getElementById("js-checkbox")
 
 
 
-//print cards
-let pastEvents= events.filter(events=>events.date<data.currentDate)
-
-cardCreator(pastEvents)
-
-
-//print checks
-crearcheck(filtrarCheckboxes(events))
-
-
-//listeners /// 
-//listener text search
-text.addEventListener("keyup", (e) => {
-    containerPast.innerHTML = ""
-    let filtroCheck= buscarPorCheckBoxes(pastEvents)
-    let filtroText= buscarPorTexto(text.value, filtroCheck)
-    if(filtroText.length !==0){
-        containerPast.innerHTML=""
+async function eventsPast(){
+    try {
+        let answer = await fetch("https://mind-hub.up.railway.app/amazing?time=past&order=desc")
+        let data = await answer.json()
+        let events= data.events 
+        cardCreator(events)
+        crearcheck(filtrarCheckboxes(events))
+        lowPrice (events)
+        highPrice(events)
+        select.addEventListener("change",e=>{
+            containerPast.innerHTML = ""
+        
+          switch (e.target.value) {
+            case "low":
+                cardCreator(lowPrice(events))
+                break
+            case "high":
+                cardCreator(highPrice(events))
+                break
+            case "all":
+                   cardCreator(events) 
+          }  
+        })
+        btnSearch.addEventListener("click", (e) => {
+            e.preventDefault()
+            let filtroCheck= buscarPorCheckBoxes(events)
+            let filtroText= buscarPorTexto(text.value, filtroCheck)
+            filtroText.filter(filtro=> filtro.length !==0)
+            containerPast.innerHTML=""
+        
+            cardCreator(filtroText)
+            
+        })
+        
+        checkBox.addEventListener("change", (e) => {
+            let filtroCheck=buscarPorCheckBoxes(events)
+            let filtroText= buscarPorTexto(text.value, filtroCheck)    
+            filtroText.filter(filtro=> filtro.length !==0)
+                containerPast.innerHTML=""
+                if(filtroText.length !==0){
+                    containerPast.innerHTML=""
+                    cardCreator(filtroText)
+                } else {
+            
+                notFound()
+                }
+            
+        })           
+        text.addEventListener("keyup", (e) => {
+            let filtroCheck= buscarPorCheckBoxes(events)
+            let filtroText= buscarPorTexto(text.value, filtroCheck)
+            if(filtroText.length !==0){
+                containerPast.innerHTML=""
+                cardCreator(filtroText)
+            } else {
+        
+            notFound()
+            }
+            
+        })
     }
-    cardCreator(filtroText)
-    
-})
 
-//listener search btn
-btnSearch.addEventListener("click", (e) => {
-    e.preventDefault()
-    containerPast.innerHTML = ""
-    let filtroCheck= buscarPorCheckBoxes(pastEvents)
-    let filtroText= buscarPorTexto(text.value, filtroCheck)
-    filtroText.filter(filtro=> filtro.length !==0)
-    containerPast.innerHTML=""
+    catch (error){
+        console.log(error)
+    }
 
-    cardCreator(filtroText)
-    
-})
 
-checkBox.addEventListener("change", (e) => {
-    let filtroCheck= buscarPorCheckBoxes(pastEvents)
-    let filtroText= buscarPorTexto(text.value, filtroCheck)
-    filtroText.filter(filtro=> filtro.length !==0)
-        containerPast.innerHTML=""
-   
-    cardCreator(filtroText)
-    
-})
+
+}
+
+eventsPast()
+
 
 
 //FUNCTION
@@ -71,7 +97,7 @@ function cardCreator (array){
     <p class="card-text">${card.description}</p>
     <div class="d-flex flex-row justify-content-between pt-3">
                         <p class="fw-bold">Price $ ${card.price}</p>
-                        <a href="./details.html?id=${card._id}" class="btn" id="${card._id}">More info</a>
+                        <a href="./details.html?id=${card.id}" class="btn" id="${card.id}">More info</a>
                 </div>
         </div>
 </article>
@@ -107,9 +133,7 @@ function filtrarCheckboxes(events) {
 function buscarPorTexto(texto, array) {
         
         let arrayFiltrado = array.filter(evento => evento.name.toLowerCase().includes(texto.toLowerCase())|| evento.price == texto)
-        arrayFiltrado.filter(array=>array.length ===0)
-        
-            notFound()
+
         
         return arrayFiltrado
         

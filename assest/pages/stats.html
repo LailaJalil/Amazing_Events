@@ -75,9 +75,9 @@
             </button>
         </div>
     </section>
-    <main class="container-fluid cardcontainer d-flex justify-content-center align-items-center d-flex flex-column ">
+    <main class="container-fluid cardcontainer d-flex justify-content-center align-items-center d-flex flex-column text-white text-center " >
         
-        <table class="table table-dark table-hover mb-0 mt-2">
+        <table class="table table-dark mb-0 mt-2">
     
             <thead >
                 <colgroup>
@@ -85,22 +85,16 @@
                     <col span="1">
                     <col span="1">
                 </colgroup> 
-                <tr class="text-center">
+                <tr>
                     <th colspan="3"> EVENTS STATISTICS</th>
                 </tr>
-                <tr>
+                <tr class="fw-bold">
                     <td>Events with the highest percentage of attendance</td>
                     <td>Events with the lowest percentage of attendance</td>
                     <td>Event with larger capacity</td>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td>&nbsp</td>
-                    <td>&nbsp</td>
-                    <td>&nbsp</td>
-                </tr>
-                
+            <tbody id="highest" class="table-hover">     
             </tbody>
         </table>
         <table class="table table-dark table-hover mb-0 ">
@@ -110,31 +104,17 @@
                 <col span="1">
             </colgroup> 
             <thead>
-                <tr  class="text-center">
+                <tr>
                     <th colspan="3"> UPCOMING EVENTS STATISTICS BY CATEGORY</th>
                 </tr>
-                <tr>
+                <tr class="fw-bold">
                     <td>Categories</td>
-                    <td>Revenues</td>
-                    <td>Percentage of attendance</td>
+                    <td>Estimate Revenues</td>
+                    <td> Estimate Percentage of attendance</td>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td>&nbsp</td>
-                    <td>&nbsp</td>
-                    <td>&nbsp</td>
-                </tr>
-                <tr>
-                    <td>&nbsp</td>
-                    <td>&nbsp</td>
-                    <td>&nbsp</td>
-                </tr>
-                <tr>
-                    <td>&nbsp</td>
-                    <td>&nbsp</td>
-                    <td>&nbsp</td>
-                </tr> 
+            <tbody id="tableUp-js">
+                
             </tbody>
         </table>
         <table class="table table-dark table-hover">
@@ -145,41 +125,17 @@
             </colgroup> 
             <thead>
                
-                <tr class="text-center">
+                <tr >
                     <th colspan="3"> PAST EVENTS STATISTICS BY CATEGORY</th>
                 </tr>
-                <tr>
-                    <td>Categories</td>
+                <tr class="fw-bold">
+                    <td >Categories</td>
                     <td>Revenues</td>
-                    <td>Percentage</td>
+                    <td>Percentage of attendance</td>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td>&nbsp</td>
-                    <td>&nbsp</td>
-                    <td>&nbsp</td>
-                </tr>
-                <tr>
-                    <td>&nbsp</td>
-                    <td>&nbsp</td>
-                    <td>&nbsp</td>
-                </tr>
-                <tr>
-                    <td>&nbsp</td>
-                    <td>&nbsp</td>
-                    <td>&nbsp</td>
-                </tr>
-                <tr>
-                    <td>&nbsp</td>
-                    <td>&nbsp</td>
-                    <td>&nbsp</td>
-                </tr>
-                <tr>
-                    <td>&nbsp</td>
-                    <td>&nbsp</td>
-                    <td>&nbsp</td>
-                </tr>
+            <tbody id="tablePast-js" class="table-hover ">
+                
             </tbody>
         </table>
     </main>
@@ -193,7 +149,7 @@
         <p class="text-white col-3 text-end">COHORT 35</p>
         
     </footer>
-
+    <script src="../scripts/stats.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
         crossorigin="anonymous"></script>
